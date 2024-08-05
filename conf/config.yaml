@@ -1,0 +1,29 @@
+name: "web_app"
+mode: "dev"
+port: 8081
+version: "v0.0.1"
+machine_id: 1
+start_time: "2000-05-09"
+client_url: "*"
+
+log:
+  level: "info"
+  filename: "./logs/web_app.log"
+  max_size: 100
+  max_age: 30
+  max_backups: 7
+
+mysql:
+    host: "39.106.8.172"
+    port: 13306
+    user: "admin"
+    password: "sinfotek"
+    dbname: "sinfotek"
+    max_idle_conns: 20
+    max_conns: 100
+file:
+  filemaxsize: 2048
+  savedir: "./static/upload/"
+  httpurl: "http://127.0.0.1:8081"
+  httpdir: "/static"
+
