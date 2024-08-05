@@ -14,11 +14,11 @@ log:
   max_backups: 7
 
 mysql:
-    host: "39.106.8.172"
-    port: 13306
+    host: "192.168.8.66"
+    port: 3306
     user: "admin"
-    password: "sinfotek"
-    dbname: "sinfotek"
+    password: "Mark1590"
+    dbname: "workspace"
     max_idle_conns: 20
     max_conns: 100
 file:

@@ -33,10 +33,6 @@ func AlarmAdd(host *models.ParamAlarmSetting) (theId int64, err error) {
 	} else {
 		clinet.SystemlogNote = err.Error()
 	}
-	_, err = SystemLogInsert(clinet)
-	if err != nil {
-		return
-	}
 	theId, err = ret.LastInsertId()
 	if err != nil {
 		return theId, err
@@ -77,10 +73,7 @@ func AlarmUpdateNoti(host *models.ParamAlarmSetting) (n int64, err error) {
 	} else {
 		clinet.SystemlogNote = err.Error()
 	}
-	_, err = SystemLogInsert(clinet)
-	if err != nil {
-		return
-	}
+
 	n, err = ret.RowsAffected()
 	if err != nil {
 		fmt.Println(err)
@@ -113,10 +106,7 @@ func AlarmUpdateThreshold(host *models.ParamAlarmSetting) (n int64, err error) {
 	} else {
 		clinet.SystemlogNote = err.Error()
 	}
-	_, err = SystemLogInsert(clinet)
-	if err != nil {
-		return
-	}
+
 	n, err = ret.RowsAffected()
 	if err != nil {
 		fmt.Println(err)
@@ -150,10 +140,7 @@ func AlarmEdit(host *models.ParamAlarmSetting) (n int64, err error) {
 	} else {
 		clinet.SystemlogNote = err.Error()
 	}
-	_, err = SystemLogInsert(clinet)
-	if err != nil {
-		return
-	}
+
 	n, err = ret.RowsAffected()
 	if err != nil {
 		fmt.Println(err)

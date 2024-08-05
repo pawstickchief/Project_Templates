@@ -83,10 +83,7 @@ func Hostedit(host *models.ParamHostDateGet) (n int64, err error) {
 	} else {
 		clinet.SystemlogNote = err.Error()
 	}
-	_, err = SystemLogInsert(clinet)
-	if err != nil {
-		return
-	}
+
 	return
 
 }
@@ -141,10 +138,7 @@ func Hostadd(host *models.ParamHostDateGet) (theId int64, err error) {
 	} else {
 		clinet.SystemlogNote = err.Error()
 	}
-	_, err = SystemLogInsert(clinet)
-	if err != nil {
-		return
-	}
+
 	return
 
 }
@@ -160,10 +154,6 @@ func Hostdel(host *models.ParamHostDateGet) (n int64, err error) {
 		clinet.SystemlogNote = "成功"
 	} else {
 		clinet.SystemlogNote = err.Error()
-	}
-	_, err = SystemLogInsert(clinet)
-	if err != nil {
-		return
 	}
 
 	ret, err := db.Exec(sqlStr, host.Hostid)
