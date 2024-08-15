@@ -46,7 +46,11 @@ type ParamStatistics struct {
 	Alarmline      int    `json:"alarmonline" `
 	Alarmlist      `json:"alarmlist"`
 }
-
+type SelectSwitchMac struct {
+	SwitchLevel int    `json:"switchLevel" binding:"required"`
+	ShortMAC    string `json:"shortMac" `
+	ChangVlan   int    `json:"changVlan"`
+}
 type ParamAlarmSetting struct {
 	AlarmSettingOption string `json:"alarmoption" binding:"required"`
 	//若数据为空值使用指针
@@ -158,4 +162,20 @@ type SshTool struct {
 	Address  string `json:"address"`
 	Port     int    `json:"port"`
 	Shell    string `json:"shell"`
+}
+type SwitchLinkInfo struct {
+	UplinkSwitch   string `json:"UplinkSwitch"`
+	UplinkPort     string `json:"UplinkPort"`
+	DownLinkSwitch string `json:"DownLinkSwitch"`
+	DownLinkPort   string `json:"DownLinkPort"`
+	SwitchName     string `json:"SwitchName"`
+	SwitchType     string `json:"SwitchType"`
+	SwitchNote     string `json:"SwitchNote"`
+	SwitchLocation string `json:"SwitchLocation"`
+}
+
+type ClientSwitchInfo struct {
+	Vlan       string `json:"Vlan"`
+	SwitchPort string `json:"SwitchPort"`
+	SwitchName string `json:"SwitchName"`
 }

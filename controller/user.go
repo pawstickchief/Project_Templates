@@ -1,19 +1,21 @@
 package controller
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"go-web-app/logic"
 	"go-web-app/models"
 	"go.uber.org/zap"
+	"strconv"
 )
 
-func Alarmsetting(c *gin.Context) {
-	p := new(models.ParamAlarmSetting)
+func SelectSwitchMac(c *gin.Context) {
+	p := new(models.SelectSwitchMac)
 	if err := c.ShouldBindJSON(&p); err != nil {
 		//请求参数有误,直接返回响应
-
-		errs, ok := err.(validator.ValidationErrors)
+		var errs validator.ValidationErrors
+		ok := errors.As(err, &errs)
 		if !ok {
 			ResopnseError(c, CodeServerApiType)
 			return
@@ -21,9 +23,33 @@ func Alarmsetting(c *gin.Context) {
 		ResponseErrorwithMsg(c, CodeServerApiType, removeTopStruct(errs.Translate(trans)))
 		return
 	}
-	s, err := logic.AlarmOption(p)
+	s, err := logic.SelectSwitchInfoOption(p)
 	if err != nil {
-		zap.L().Error("hostlitdata with invalid param", zap.String("ParameterType", p.AlarmSettingOption), zap.Error(err))
+		zap.L().Error("selectswitchm with invalid param", zap.String("ParameterType", strconv.Itoa(p.SwitchLevel)), zap.Error(err))
+		ResopnseError(c, CodeAlarminfo)
+
+		return
+	}
+	//3.返回响应
+
+	ResopnseSystemDataSuccess(c, s)
+}
+func SelectSwitchChangeVlan(c *gin.Context) {
+	p := new(models.SelectSwitchMac)
+	if err := c.ShouldBindJSON(&p); err != nil {
+		//请求参数有误,直接返回响应
+		var errs validator.ValidationErrors
+		ok := errors.As(err, &errs)
+		if !ok {
+			ResopnseError(c, CodeServerApiType)
+			return
+		}
+		ResponseErrorwithMsg(c, CodeServerApiType, removeTopStruct(errs.Translate(trans)))
+		return
+	}
+	s, err := logic.SelectSwitchOption(p)
+	if err != nil {
+		zap.L().Error("selectswitchm with invalid param", zap.String("ParameterType", strconv.Itoa(p.SwitchLevel)), zap.Error(err))
 		ResopnseError(c, CodeAlarminfo)
 
 		return

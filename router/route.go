@@ -20,7 +20,8 @@ func Setup(mode, ClientUrl string, size int64, savedir string) *gin.Engine {
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
 	r.MaxMultipartMemory = size << 20
 	//注册业务路由
-	r.POST("/alarmsetting", controller.Alarmsetting)
+	r.POST("/selectswitchchangvlan", controller.SelectSwitchChangeVlan)
+	r.POST("/selectswitch", controller.SelectSwitchMac)
 	r.POST("/download", controller.DownloadHandler)
 	r.POST("/upload", func(ctx *gin.Context) {
 		forms, err := ctx.MultipartForm()
