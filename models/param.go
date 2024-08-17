@@ -24,34 +24,6 @@ type ParamLogin struct {
 	Password string `json:"password" binding:"required"`
 }
 
-type ParamSystemGet struct {
-	ParameterType string `json:"parametertype" binding:"required"`
-	ClientParame  `json:"clientparame"`
-}
-type ClientParame struct {
-	Hostid             int64  `json:"hostid"`
-	Hostname           string `json:"hostname"`
-	OptionTime         string `json:"optiontime"`
-	OptionNote         string `json:"optionnote"`
-	OptionIp           string `json:"optionip"`
-	OpitonParame       string `json:"opitonparame"`
-	OptionParameCpu    string `json:"optionparamecpu"`
-	OptionParameMemory string `json:"optionparamememory"`
-	OptionParameDisk   string `json:"optionparamedisk"`
-	OptionParameUns    string `json:"optionparameuns"`
-	OptionParameDns    string `json:"optionparamedns"`
-}
-
-type ParamHostDateGet struct {
-	TypeOperation string `json:"typeoperation" binding:"required"`
-	Hostlist      `json:"hostlist"`
-}
-type ParamStatistics struct {
-	StatisticsType string `json:"statisticstype" binding:"required"`
-	Hostline       int    `json:"hostonline" `
-	Alarmline      int    `json:"alarmonline" `
-	Alarmlist      `json:"alarmlist"`
-}
 type SelectSwitchMac struct {
 	SwitchLevel int    `json:"switchLevel" binding:"required"`
 	ShortMAC    string `json:"shortMac" `
