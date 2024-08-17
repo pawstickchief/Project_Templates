@@ -2,7 +2,13 @@ package models
 
 import clientv3 "go.etcd.io/etcd/client/v3"
 
-//定义请求的参数结构体
+// 定义请求的参数结构体
+// ErrorResponse 表示 API 的错误响应
+type ErrorResponse struct {
+	Data string `json:"data"`
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+}
 
 // 用户注册参数
 type ParamSignUp struct {
@@ -49,7 +55,7 @@ type ParamStatistics struct {
 type SelectSwitchMac struct {
 	SwitchLevel int    `json:"switchLevel" binding:"required"`
 	ShortMAC    string `json:"shortMac" `
-	ChangVlan   int    `json:"changVlan"`
+	ChangVlan   int    `json:"changVlan" `
 }
 type ParamAlarmSetting struct {
 	AlarmSettingOption string `json:"alarmoption" binding:"required"`

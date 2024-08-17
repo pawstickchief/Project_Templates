@@ -18,7 +18,11 @@ import (
 )
 
 // Go Web开发比较通用的脚手架模板
-
+// @title 交换机查询设备端口
+// @version 1.0
+// @description 通过mac地址查询对应设备所处交换机端口和vlan信息
+// @host 192.168.8.84:8081
+// @BasePath /
 func main() {
 	var appConfigpath string
 	flag.StringVar(&appConfigpath, "c", "", "Configuration file path")

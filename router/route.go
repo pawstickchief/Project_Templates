@@ -3,6 +3,8 @@ package router
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"go-web-app/controller"
 	"go-web-app/dao/mysql"
 	"go-web-app/logger"
@@ -20,6 +22,13 @@ func Setup(mode, ClientUrl string, size int64, savedir string) *gin.Engine {
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
 	r.MaxMultipartMemory = size << 20
 	//注册业务路由
+	// 注册Swagger路由
+	// 映射 Swagger UI 相关静态文件
+	r.Static("/swagger-ui", "./docs/swagger-ui")
+	r.StaticFile("/swagger.json", "./docs/swagger.json")
+
+	url := ginSwagger.URL("/swagger.json")
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	r.POST("/selectswitchchangvlan", controller.SelectSwitchChangeVlan)
 	r.POST("/selectswitch", controller.SelectSwitchMac)
 	r.POST("/download", controller.DownloadHandler)

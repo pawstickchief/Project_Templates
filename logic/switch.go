@@ -51,7 +51,7 @@ func SelectSwitchOption(p *models.SelectSwitchMac) (interface{}, error) {
 			}
 
 			if switchinfo.SwitchName == switchinfo.DownLinkSwitch {
-				return processSwitchOutput(switchconn, switchtype, s, switchinfo)
+				return processSwitchOutput(switchtype, s, switchinfo)
 			}
 		}
 
@@ -87,7 +87,7 @@ func SelectSwitchOption(p *models.SelectSwitchMac) (interface{}, error) {
 			}
 
 			if switchinfo.SwitchName == switchinfo.DownLinkSwitch {
-				return processSwitchOutput(switchconn, switchtype, s, switchinfo)
+				return processSwitchOutput(switchtype, s, switchinfo)
 			}
 		}
 	case 50201:
@@ -124,7 +124,7 @@ func SelectSwitchOption(p *models.SelectSwitchMac) (interface{}, error) {
 			}
 
 			if switchinfo.SwitchName == switchinfo.DownLinkSwitch {
-				return processSwitchOutput(switchconn, switchtype, s, switchinfo)
+				return processSwitchOutput(switchtype, s, switchinfo)
 			}
 		}
 	case 801:
@@ -501,7 +501,7 @@ func connectAndValidate(address, username, password string) (*telnet.Conn, strin
 	return switchconn, switchtype, nil
 }
 
-func processSwitchOutput(conn *telnet.Conn, switchtype string, s string, switchinfo models.SwitchLinkInfo) (interface{}, error) {
+func processSwitchOutput(switchtype string, s string, switchinfo models.SwitchLinkInfo) (string, error) {
 	var vlanport, linkport string
 	var err error
 
@@ -509,7 +509,7 @@ func processSwitchOutput(conn *telnet.Conn, switchtype string, s string, switchi
 	case "huawei":
 		cmdout, err := ExtractContentBetweenDashes(s)
 		if err != nil {
-			return nil, err
+			return "", err
 		}
 		vlanport, linkport = AnalyzeHuaweiSwtich(cmdout)
 
@@ -517,7 +517,7 @@ func processSwitchOutput(conn *telnet.Conn, switchtype string, s string, switchi
 		vlanport, linkport = AnalyzeCiscoSwtich(s)
 
 	default:
-		return nil, fmt.Errorf("未知的交换机类型: %s", switchtype)
+		return "", fmt.Errorf("未知的交换机类型: %s", switchtype)
 	}
 
 	zap.L().Named("MAC地址当前vlan" + vlanport)

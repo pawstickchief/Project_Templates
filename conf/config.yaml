@@ -26,4 +26,6 @@ file:
   savedir: "./static/upload/"
   httpurl: "http://127.0.0.1:8081"
   httpdir: "/static"
-
+switch:
+  username: "gyop"
+  passtoken: "E@2wYZ!Asa"

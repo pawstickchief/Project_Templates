@@ -1,0 +1,97 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "通过mac地址查询对应设备所处交换机端口和vlan信息",
+        "title": "交换机查询设备端口",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "192.168.8.84:8081",
+    "basePath": "/",
+    "paths": {
+        "/selectswitch": {
+            "post": {
+                "description": "查询交换机端口",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询交换机端口",
+                "parameters": [
+                    {
+                        "description": "查询交换机的参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SelectSwitchMac"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/models.ClientSwitchInfo"
+                        }
+                    },
+                    "500": {
+                        "description": "内部错误",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.ClientSwitchInfo": {
+            "type": "object",
+            "properties": {
+                "SwitchName": {
+                    "type": "string"
+                },
+                "SwitchPort": {
+                    "type": "string"
+                },
+                "Vlan": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.SelectSwitchMac": {
+            "type": "object",
+            "required": [
+                "switchLevel"
+            ],
+            "properties": {
+                "changVlan": {
+                    "type": "integer"
+                },
+                "shortMac": {
+                    "type": "string"
+                },
+                "switchLevel": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
