@@ -57,6 +57,11 @@ type SelectSwitchMac struct {
 	ShortMAC    string `json:"shortMac" `
 	ChangVlan   int    `json:"changVlan" `
 }
+
+type SelectNeighbors struct {
+	SwitchName   string `json:"switchname"  binding:"required"`
+	SwitchNumber int    `json:"switchnumber"`
+}
 type ParamAlarmSetting struct {
 	AlarmSettingOption string `json:"alarmoption" binding:"required"`
 	//若数据为空值使用指针

@@ -20,6 +20,7 @@ type AppConfig struct {
 	*MySQLConfig  `mapstructure:"mysql"`
 	*FileConfig   `mapstructure:"file"`
 	*SwitchConfig `mapstructure:"switch"`
+	*WXworkToke   `mapstructure:"WXWork"`
 }
 type FileConfig struct {
 	Filemaxsize int64  `mapstructure:"filemaxsize"`
@@ -46,6 +47,9 @@ type MySQLConfig struct {
 	DbName       string `mapstructure:"dbname"`
 	MaxIdleConns int    `mapstructure:"max_idle_conns"`
 	MaxConns     int    `mapstructure:"max_conns"`
+}
+type WXworkToke struct {
+	ApiToken string `mapstructure:"apitoken"`
 }
 
 func Init(configfile string) (err error) {

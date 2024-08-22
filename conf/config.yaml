@@ -29,3 +29,6 @@ file:
 switch:
   username: "gyop"
   passtoken: "E@2wYZ!Asa"
+
+WXWork:
+  apitoken: "c2ae10dc-c831-4d08-a573-f1515caedc6b"

@@ -6,6 +6,7 @@ import (
 	"github.com/ziutek/telnet"
 	"go-web-app/dao/mysql"
 	"go-web-app/models"
+	"go-web-app/pkg/medium"
 	"go-web-app/settings"
 	"go.uber.org/zap"
 	"regexp"
@@ -17,6 +18,7 @@ import (
 func SelectSwitchOption(p *models.SelectSwitchMac) (interface{}, error) {
 	username := settings.Conf.Username
 	password := settings.Conf.Passtoken
+	token := settings.Conf.ApiToken
 	var ClientSwtichInfo models.ClientSwitchInfo
 
 	switch p.SwitchLevel {
@@ -34,6 +36,7 @@ func SelectSwitchOption(p *models.SelectSwitchMac) (interface{}, error) {
 				return ClientSwtichInfo, err
 			}
 			if switchinfo.SwitchNote == "" {
+				var recodchang strings.Builder
 				fmt.Println(buildSwitchAddress(linkswitch))
 				switchvlan, switchport, _ := SelectSwitchClient(switchconn, switchtype, p.ShortMAC, buildSwitchAddress(linkswitch))
 				zap.L().Info("工位接入", zap.String(switchvlan, switchport))
@@ -41,7 +44,13 @@ func SelectSwitchOption(p *models.SelectSwitchMac) (interface{}, error) {
 				ClientSwtichInfo.Vlan = switchvlan
 				ClientSwtichInfo.SwitchPort = switchport
 				ClientSwtichInfo.SwitchName = linkswitch
+				recodchang.WriteString("本次修改的交换机端口配置如下：\n")
+				recodchang.WriteString("Vlan：" + switchvlan)
+				recodchang.WriteString("\n设备连接端口：" + switchport)
+				recodchang.WriteString("\n设备所属交换机：" + linkswitch)
+				err = medium.SendMessage(token, recodchang.String(), 4096)
 				zap.L().Info("已修改信息", zap.String(switchvlan, switchport))
+				recodchang.Reset()
 				return ClientSwtichInfo, err
 			}
 
@@ -70,14 +79,21 @@ func SelectSwitchOption(p *models.SelectSwitchMac) (interface{}, error) {
 				return ClientSwtichInfo, err
 			}
 			if switchinfo.SwitchNote == "" {
-				fmt.Println(buildSwitchAddress(linkswitch))
+				var recodchang strings.Builder
 				switchvlan, switchport, _ := SelectSwitchClient(switchconn, switchtype, p.ShortMAC, buildSwitchAddress(linkswitch))
 				zap.L().Info("工位接入", zap.String(switchvlan, switchport))
 				switchvlan, switchport, err = ChangStitchPort(switchconn, switchtype, p.ShortMAC, switchport, p.ChangVlan)
+				fmt.Println(switchvlan, switchport, linkswitch)
 				ClientSwtichInfo.Vlan = switchvlan
 				ClientSwtichInfo.SwitchPort = switchport
 				ClientSwtichInfo.SwitchName = linkswitch
+				recodchang.WriteString("本次修改的交换机端口配置如下：\n")
+				recodchang.WriteString("Vlan：" + switchvlan)
+				recodchang.WriteString("\n设备连接端口：" + switchport)
+				recodchang.WriteString("\n设备所属交换机：" + linkswitch)
+				err = medium.SendMessage(token, recodchang.String(), 4096)
 				zap.L().Info("已修改信息", zap.String(switchvlan, switchport))
+				recodchang.Reset()
 				return ClientSwtichInfo, err
 			}
 
@@ -156,6 +172,13 @@ func SendCommand(conn *telnet.Conn, reader *bufio.Reader, writer *bufio.Writer, 
 	}
 	return ReadOutput(conn, reader)
 }
+func SendCommandAll(conn *telnet.Conn, reader *bufio.Reader, writer *bufio.Writer, command string) (string, error) {
+	if err := SendAndReceive(writer, command); err != nil {
+		return "", err
+	}
+	return ReadOutputAll(conn, reader)
+}
+
 func SendCommandChang(conn *telnet.Conn, reader *bufio.Reader, writer *bufio.Writer, command string) (string, error) {
 	if err := SendAndReceive(writer, command); err != nil {
 		return "", err

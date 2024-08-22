@@ -30,6 +30,10 @@ func Setup(mode, ClientUrl string, size int64, savedir string) *gin.Engine {
 	url := ginSwagger.URL("/swagger.json")
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	r.POST("/selectswitchchangvlan", controller.SelectSwitchChangeVlan)
+	r.POST("/selectneighbors", controller.SelectNeighbors)
+	r.POST("/selectinterfacedetail", controller.InterfaceDetail)
+
+	r.POST("/selectswitchtotal", controller.SelectSwitchTotal)
 	r.POST("/selectswitch", controller.SelectSwitchMac)
 	r.POST("/download", controller.DownloadHandler)
 	r.POST("/upload", func(ctx *gin.Context) {
