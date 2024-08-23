@@ -97,31 +97,35 @@ func ParseInterfaceStatus(input string) (interfaces []models.InterfaceVlanInfo) 
 		// 确保字段长度足够，避免数组越界
 		if len(fields) >= 6 {
 			phy := ""
-			for i := 1; i < len(fields) && i < 6; i++ {
+			phyIndex := -1
+			for i := 1; i < len(fields); i++ {
 				if fields[i] == "connected" || fields[i] == "notconnect" {
 					phy = fields[i]
+					phyIndex = i
 					break
 				}
 			}
 
-			// 如果在 6 次检查内没有找到有效的 PHY 值，则填空
+			// 如果在字段中没有找到有效的 PHY 值，则标记为 "unknown"
 			if phy == "" {
 				phy = "unknown"
 			}
 
-			// 处理字段，跳过已经检查的字段，确保索引不越界
-			pvidIndex := 2
-			linkTypeIndex := 3
-			if phy != fields[1] {
-				pvidIndex++
-				linkTypeIndex++
+			// 确保索引不越界并且正确获取网段和链路类型信息
+			pvid := "unknown"
+			linkType := "unknown"
+			if phyIndex != -1 && len(fields) > phyIndex+1 {
+				pvid = fields[phyIndex+1] // 网段字段在 PHY 后面
+			}
+			if phyIndex != -1 && len(fields) > phyIndex+2 {
+				linkType = fields[phyIndex+2] // 链路类型在网段后面
 			}
 
 			interfaceInfo := models.InterfaceVlanInfo{
 				Interface: fields[0],
-				PVID:      fields[pvidIndex],
+				PVID:      pvid,
 				PHY:       phy,
-				LinkType:  fields[linkTypeIndex],
+				LinkType:  linkType,
 			}
 
 			interfaces = append(interfaces, interfaceInfo)
