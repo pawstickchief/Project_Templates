@@ -15,6 +15,7 @@ const (
 	CodeServerApiType
 	CodeHostlist
 	CodeAlarminfo
+	CodeSelectSwitch
 )
 
 var codeMsgMap = map[ResCode]string{
@@ -29,6 +30,7 @@ var codeMsgMap = map[ResCode]string{
 	CodeServerApiType:   "接口参数错误",
 	CodeHostlist:        "主机已存在",
 	CodeAlarminfo:       "报警接口参数错误",
+	CodeSelectSwitch:    "交换机上联信息错误",
 }
 
 func (c ResCode) Msg() string {

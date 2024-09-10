@@ -62,6 +62,18 @@ type SelectNeighbors struct {
 	SwitchName   string `json:"switchname"  binding:"required"`
 	SwitchNumber int    `json:"switchnumber"`
 }
+type LoginUserinfo struct {
+	UserName string `json:"userName" binding:"required"`
+	UserCode int    `json:"UserCode"`
+}
+
+type SwitchUplinkInfo struct {
+	SwitchOption   string `json:"switchoption" binding:"required"`
+	SwitchId       int    `json:"switchid" binding:"required"`
+	SwitchName     string `json:"switchname"`
+	SwitchType     string `json:"switchtype"`
+	SwitchLocation string `json:"switchlocation"`
+}
 type ParamAlarmSetting struct {
 	AlarmSettingOption string `json:"alarmoption" binding:"required"`
 	//若数据为空值使用指针

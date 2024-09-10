@@ -149,3 +149,53 @@ func SelectSwitchTotal(c *gin.Context) {
 
 	ResopnseSystemDataSuccess(c, s)
 }
+
+func LoginUserVerif(c *gin.Context) {
+	p := new(models.LoginUserinfo)
+	if err := c.ShouldBindJSON(&p); err != nil {
+		//请求参数有误,直接返回响应
+		var errs validator.ValidationErrors
+		ok := errors.As(err, &errs)
+		if !ok {
+			ResopnseError(c, CodeServerApiType)
+			return
+		}
+		ResponseErrorwithMsg(c, CodeServerApiType, removeTopStruct(errs.Translate(trans)))
+		return
+	}
+	var userinfo models.User
+	userinfo.Name = p.UserName
+	userinfo.UserId = p.UserCode
+	err := mysql.LoginCode(&userinfo)
+	if err != nil {
+		zap.L().Error("用户信息核对失败", zap.String("ParameterType", p.UserName), zap.Error(err))
+		ResopnseError(c, CodeUserNotExist)
+
+		return
+	}
+	//3.返回响应
+
+	ResopnseSystemDataSuccess(c, "用户信息核对正确")
+}
+
+func SelectUplinkInfo(c *gin.Context) {
+	p := new(models.SwitchUplinkInfo)
+	if err := c.ShouldBindJSON(&p); err != nil {
+		//请求参数有误,直接返回响应
+		var errs validator.ValidationErrors
+		ok := errors.As(err, &errs)
+		if !ok {
+			ResopnseError(c, CodeServerApiType)
+			return
+		}
+		ResponseErrorwithMsg(c, CodeServerApiType, removeTopStruct(errs.Translate(trans)))
+		return
+	}
+	s, err := logic.SelectSwitchUplink(p)
+	if err != nil {
+		ResopnseError(c, CodeSelectSwitch)
+		return
+	}
+
+	ResopnseSystemDataSuccess(c, s)
+}

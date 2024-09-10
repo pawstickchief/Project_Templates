@@ -32,6 +32,8 @@ func Setup(mode, ClientUrl string, size int64, savedir string) *gin.Engine {
 	r.POST("/selectswitchchangvlan", controller.SelectSwitchChangeVlan)
 	r.POST("/selectneighbors", controller.SelectNeighbors)
 	r.POST("/selectinterfacedetail", controller.InterfaceDetail)
+	r.POST("/secectuplinkinfo", controller.SelectUplinkInfo)
+	r.POST("/login", controller.LoginUserVerif)
 
 	r.POST("/selectswitchtotal", controller.SelectSwitchTotal)
 	r.POST("/selectswitch", controller.SelectSwitchMac)
