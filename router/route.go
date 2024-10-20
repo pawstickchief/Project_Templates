@@ -31,6 +31,7 @@ func Setup(mode, ClientUrl string, size int64, savedir string) *gin.Engine {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 	r.POST("/selectswitch", controller.SelectSwitchMac)
 	r.POST("/download", controller.DownloadHandler)
+	r.POST("/login", controller.LoginUserVerif)
 	r.POST("/upload", func(ctx *gin.Context) {
 		forms, err := ctx.MultipartForm()
 		if err != nil {

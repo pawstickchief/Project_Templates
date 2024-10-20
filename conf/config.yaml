@@ -1,6 +1,6 @@
 name: "web_app"
 mode: "dev"
-port: 8081
+port: 8002
 version: "v0.0.1"
 machine_id: 1
 start_time: "2000-05-09"
@@ -14,17 +14,17 @@ log:
   max_backups: 7
 
 mysql:
-    host: "192.168.8.66"
+    host: "209.141.59.82"
     port: 3306
-    user: "admin"
+    user: "ser283004932404"
     password: "Mark1590"
-    dbname: "workspace"
+    dbname: "ser283004932404"
     max_idle_conns: 20
     max_conns: 100
 file:
   filemaxsize: 2048
   savedir: "./static/upload/"
-  httpurl: "http://127.0.0.1:8081"
+  httpurl: "http://127.0.0.1:8002"
   httpdir: "/static"
 switch:
   username: "gyop"

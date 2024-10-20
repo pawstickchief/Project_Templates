@@ -17,6 +17,7 @@ type MyClaims struct {
 }
 
 // GenRegisteredClaims 使用默认声明创建jwt
+
 func GenToken(userId int64, username string) (string, error) {
 	// 创建一个我们自己的声明
 	claims := MyClaims{
